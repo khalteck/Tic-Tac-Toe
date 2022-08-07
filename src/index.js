@@ -128,7 +128,7 @@ function SideNav(props) {
       });
       let status;
       if (winner) {
-        status = 'Winner: ' + winner;
+        status = 'Player ' + winner + ' Wins!!';
       } else {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
