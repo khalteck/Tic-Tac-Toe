@@ -15,22 +15,87 @@ body {
 #root {
     width: fit-content;
 }
-ol, ul {
-    padding-left: 30px;
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: #1f3540;
+    color: #f2b237;
+    border-bottom: 1px solid #f2b237;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.bottom-nav {
+    width: 100%;
+    height: 60px;
+    background-color: #1f3540;
+    color: #f2b237;
+    padding: 0 10px;
+    border-top: 1px solid #f2b237;
+    box-shadow: 0px 5px 13px rgba(0,0,0,0.3);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.icon-hold {
+    width: fit-content;
+    margin: 5px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.icon {
+    width: 25px;
+    height: auto;
+    z-index: 999;
+}
+.each {
+    width: 80px;
+    display: block;
+    font-size: 11px;
+    background-color: #192a32;
+    color: #f2b237;
+    padding: 1px 10px;
+    margin: 0 50px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 5px 7px rgba(0,0,0,0.7);
+    border: none;
+}
+.hold-move {
+    width: 310px;
+    height: 100px;
+    margin-top: 18px;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
+li {
+    margin: 5px 0;
+}
+.each-move {
+    width: 98px;
+    display: block;
+    font-size: 11px;
+    background-color: #192a32;
+    color: #f2b237;
+    padding: 2px 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 5px 7px rgba(0,0,0,0.5);
+    border: none;
 }
 .board {
     background-color: #192a32;
-    padding: 5px;
 }
 .board-row:after {
     clear: both;
     content: "";
     display: table;
-}
-.title {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 12px;
 }
 .status {
     background-color: #1f3540;
@@ -39,7 +104,7 @@ ol, ul {
     text-align: center;
     margin: 0 5px 20px 5px;
     padding: 20px;
-    box-shadow: 0px 5px 13px rgba(0,0,0,0.6);
+    box-shadow: 0px 5px 13px rgba(0,0,0,0.3);
     border-radius: 7px;
 }
 .square {
@@ -47,7 +112,7 @@ ol, ul {
     height: 80px;
     background: #1f3540;
     color: #f2b237;
-    box-shadow: 0px 5px 9px rgba(0,0,0,0.7);
+    box-shadow: 0px 5px 9px rgba(0,0,0,0.4);
     border: none;
     border-radius: 7px;
     float: left;
@@ -68,9 +133,9 @@ ol, ul {
 }
 
 .game {
-    margin: 0;
+    margin: 100px 0;
 }
 
 .game-info {
-    margin-left: 20px;
+    margin: auto;
 }

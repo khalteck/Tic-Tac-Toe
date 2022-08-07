@@ -1,8 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import x from "./images/icons8-x-64.png";
+import o from "./images/icons8-o-lowercase-26.png";
 
+function Header(props) {
+  return(
+    <nav className='header'>
+      <p>Tic Tac Toe game</p>
+    </nav>
+  );
+}
 
+function SideNav(props) {
+  return (
+    <div className='bottom-nav'>
+      <div className='icon-hold'>
+        <button className='each' id='x'>
+          Player 1<br/>
+          <img className='icon' src={x} alt=''/>
+        </button>
+        <button className='each' id='o'>
+          player 2<br/>
+          <img className='icon' src={o} alt=''/>
+        </button>
+      </div>
+    </div>
+  )
+}
    function Square(props) {
     return (
       <button className="square"
@@ -14,43 +39,18 @@ import './index.css';
    }
   
   class Board extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        squares: Array(9).fill(null),
-        xIsNext: true,
-      };
-    }
-    handleClick(i) {
-      const squares = this.state.squares.slice();
-      if (calculateWinner(squares) || squares[i]) {
-        return;
-      }
-      squares[i] = this.state.xIsNext ? "X" : "O"; //tenary operator
-      this.setState({
-        squares: squares,
-        xIsNext: !this.state.xIsNext,
-      });
-    }
     renderSquare(i) {
-      return <Square
-        value= {this.state.squares[i]}
-        onClick={() => {this.handleClick(i)}}
-      />;
+      return (
+        <Square
+          value= {this.props.squares[i]}
+          onClick={() => {this.props.onClick(i)}}
+        />
+      );
     }
   
     render() {
-      const winner = calculateWinner(this.state.squares);
-      let status;
-      if (winner) {
-        status = 'Winner: ' + winner;
-      } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-      }
-  
       return (
         <div className='board'>
-          <div className="status"><div className='title'>Tic Tac Toe game</div>{status}</div>
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
@@ -72,21 +72,86 @@ import './index.css';
   }
   
   class Game extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        history: [{
+          squares: Array(9).fill(null)
+        }],
+        stepNumber: 0,
+        xIsNext: true
+      };
+    }
+
+    handleClick(i) {
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);
+      const current = history[history.length - 1];
+      const squares = current.squares.slice();
+      if (calculateWinner(squares) || squares[i]) {
+        return;
+      }
+      squares[i] = this.state.xIsNext ? "X" : "O"; //tenary operator
+      this.setState({
+        history: history.concat([{
+          squares: squares,
+        }]),
+        stepNumber: history.length,
+        xIsNext: !this.state.xIsNext,
+      });
+    }
+
+    jumpTo(step) {
+      this.setState({  
+        stepNumber: step,  
+        xIsNext: (step % 2) === 0,
+      });
+    }
+
     render() {
+      const history = this.state.history;
+      const current = history[this.state.stepNumber];
+      const winner = calculateWinner(current.squares);
+      const moves = history.map((step, move) => {
+        const desc = move ?
+            'Go to move #' + move :
+            'Go to game start';
+        return (
+            <div key={move}>
+                <button className='each-move' 
+                onClick={
+                  () => {
+                    this.jumpTo(move);
+                  }
+                }>{desc}</button>
+            </div>
+        );
+      });
+      let status;
+      if (winner) {
+        status = 'Winner: ' + winner;
+      } else {
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      }
       return (
         <div className="game">
+          <Header/>
+          <SideNav/>
           <div className="game-board">
-            <Board />
+            <div className='status'>{status}</div>
+            <Board 
+              squares={current.squares}
+              onClick={(i) => this.handleClick(i)}
+            />
           </div>
           <div className="game-info">
-            <div>{/* status */}</div>
-            <ol>{/* TODO */}</ol>
+            <div className='hold-move'>{moves}</div>
           </div>
         </div>
       );
     }
   }
-
+  
+  
   function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],
